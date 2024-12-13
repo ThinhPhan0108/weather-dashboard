@@ -25,4 +25,5 @@ A real-time weather dashboard that fetches and visualizes weather data using the
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/<your-username>/weather-dashboard.git
+   git clone https://github.com/ThinhPhan0108/weather-dashboard.git
+   cd weather-dashboard
