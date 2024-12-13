@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #eef2f3;
+            font-family: 'Arial', sans-serif;
+        }
+        h1, h3 {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .chart-container {
+            margin: 20px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .card {
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .list-group-item {
+            font-size: 16px;
+        }
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Weather Dashboard</h1>
+        <p class="text-center text-secondary">Description: <strong>{{ description }}</strong></p>
+
+        <!-- Weather Stats -->
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header text-center bg-primary text-white">
+                        Weather Data
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">Temp Min: {{ stats_data.temp_min }}°C</li>
+                            <li class="list-group-item">Temp Max: {{ stats_data.temp_max }}°C</li>
+                            <li class="list-group-item">Temp Current: {{ stats_data.temp_current }}°C</li>
+                            <li class="list-group-item">Humidity: {{ stats_data.humidity }}%</li>
+                            <li class="list-group-item">Pressure: {{ stats_data.pressure }} hPa</li>
+                            <li class="list-group-item">Wind Speed: {{ stats_data.wind_speed }} m/s</li>
+                            <li class="list-group-item">Rain: {{ stats_data.rain }} mm</li>
+                            <li class="list-group-item">Clouds: {{ stats_data.clouds }}%</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart Section -->
+        <div class="chart-container">
+            <h3>Visualized Weather Data</h3>
+            <canvas id="weatherChart"></canvas>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2024 Weather Dashboard. All Rights Reserved.
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const data = {
+            labels: ["Temp Min", "Temp Max", "Temp Current", "Humidity", "Pressure", "Wind Speed", "Rain", "Clouds"],
+            datasets: [{
+                label: "Weather Data",
+                data: [
+                    {{ stats_data.temp_min }},
+                    {{ stats_data.temp_max }},
+                    {{ stats_data.temp_current }},
+                    {{ stats_data.humidity }},
+                    {{ stats_data.pressure }},
+                    {{ stats_data.wind_speed }},
+                    {{ stats_data.rain }},
+                    {{ stats_data.clouds }}
+                ],
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                    'rgba(255, 159, 64, 0.5)',
+                    'rgba(201, 203, 207, 0.5)',
+                    'rgba(140, 140, 140, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(201, 203, 207, 1)',
+                    'rgba(140, 140, 140, 1)'
+                ],
+                borderWidth: 2
+            }]
+        };
+
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                plugins: {
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: '#2c3e50',
+                        titleColor: '#ecf0f1',
+                        bodyColor: '#bdc3c7',
+                    }
+                },
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#ecf0f1'
+                        },
+                        ticks: {
+                            color: '#2c3e50'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'transparent'
+                        },
+                        ticks: {
+                            color: '#2c3e50'
+                        }
+                    }
+                }
+            }
+        };
+
+        const ctx = document.getElementById('weatherChart').getContext('2d');
+        new Chart(ctx, config);
+    </script>
+</body>
+</html>
